@@ -5,6 +5,13 @@ import { api } from "./api.js";
 import { DATA_DIR, ROOT, TMP_DIR } from "./db.js";
 
 const PORT = Number(process.env.PORT) || 3456;
+
+/**
+ * Loopback only. The API has no authentication, so binding every interface would
+ * put the whole ledger on the local network for anyone who knows the port. Set
+ * HOST=0.0.0.0 deliberately, and only behind something that does authenticate.
+ */
+const HOST = process.env.HOST || "127.0.0.1";
 const DAY = 24 * 60 * 60 * 1000;
 
 // Staged uploads only matter until the mapping is confirmed.
@@ -33,7 +40,7 @@ app.use((error, req, res, _next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`spenT api listening on http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`spenT api listening on http://${HOST}:${PORT}`);
   console.log(`spending data: ${DATA_DIR}`);
 });
