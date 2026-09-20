@@ -6,6 +6,7 @@ import {
   monthPeriod,
   resolvePeriod,
 } from "./lib.js";
+import { MONTH_CHART_ID, monthlyChart } from "./charts.js";
 import { overviewView } from "./views/overview.js";
 import {
   PAGE_SIZE,
@@ -107,6 +108,17 @@ function renderLedgerParts() {
   document.getElementById("ledger-inspector").innerHTML = ledgerInspector(state);
 }
 
+/** Draws the monthly chart at the measured width of its card. */
+function mountMonthlyChart() {
+  const slot = document.getElementById(MONTH_CHART_ID);
+  if (!slot || !state.summary) return;
+  slot.innerHTML = monthlyChart(
+    state.summary.monthly,
+    state.summary.from.slice(0, 7),
+    slot.clientWidth
+  );
+}
+
 function viewHtml() {
   const needsData = ["overview", "ledger", "budgets"].includes(state.view);
   if (needsData && !state.transactionCount) return emptyState();
@@ -135,7 +147,11 @@ function render({ partial = false } = {}) {
     attachLedger();
   }
   if (state.view === "import") attachImport();
+  if (state.view === "overview") mountMonthlyChart();
 }
+
+// Redraw rather than rescale, so the chart keeps one unit per pixel at any width.
+window.addEventListener("resize", debounce(mountMonthlyChart, 120));
 
 /* ------------------------------------------------------------- data loading */
 

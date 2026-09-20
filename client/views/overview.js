@@ -1,4 +1,4 @@
-import { barList, budgetMeters, monthlyChart } from "../charts.js";
+import { barList, budgetMeters, monthChartSlot } from "../charts.js";
 import {
   cadenceLabel,
   escapeHtml,
@@ -163,7 +163,7 @@ export function overviewView(state) {
         <h2>Spend by month</h2>
         <span class="muted" style="font-size:13px">click a month to jump to it</span>
       </div>
-      ${monthlyChart(summary.monthly, summary.from.slice(0, 7))}
+      ${monthChartSlot()}
     </div>
 
     <div class="grid grid-thirds">

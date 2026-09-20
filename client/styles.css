@@ -425,6 +425,11 @@ button.bar:hover .bar-name {
 
 /* ------------------------------------------------------------------- chart */
 
+/* Reserves the chart's height so mounting it does not shift the card. */
+.chart-slot {
+  min-height: 176px;
+}
+
 .chart {
   width: 100%;
   height: 176px;
