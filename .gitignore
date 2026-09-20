@@ -1,0 +1,24 @@
+node_modules
+dist
+.DS_Store
+.env
+.env.*
+
+# Spending data lives in the OS application-data directory, never in the repo.
+# Deny everything under data/ and re-admit only the synthetic demo fixture, so a
+# database or bank export dropped in here cannot be committed by accident.
+data/*
+!data/sample.csv
+
+# Second layer: a database or statement anywhere in the tree stays out, whatever
+# it is named and wherever SPENT_DATA_DIR happens to point.
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Bank exports tend to get dropped at the repo root on the way to the importer.
+/*.csv
+/*.xlsx
+/*.xls
